@@ -18,13 +18,13 @@ auto main(int argc, char** argv) -> int {
     rclcpp::init(argc, argv);
 
     // "spin" blocks until our node dies
-    rclcpp::spin(std::make_shared<mrover::Perception>());
+    rclcpp::spin(std::make_shared<mrover_autonomy_starter::Perception>());
     rclcpp::shutdown();
 
     return EXIT_SUCCESS;
 }
 
-namespace mrover {
+namespace mrover_autonomy_starter {
 
     Perception::Perception() : Node("perception") {
         // Subscribe to camera image messages
@@ -99,4 +99,4 @@ namespace mrover {
         return {};
     }
 
-} // namespace mrover
+} // namespace mrover_autonomy_starter

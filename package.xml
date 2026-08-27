@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<?xml-model
+    href="http://download.ros.org/schema/package_format3.xsd"
+    schematypens="http://www.w3.org/2001/XMLSchema"?>
+
+<package format="3">
+    <name>mrover_autonomy_starter</name>
+    <version>1.0.0</version>
+    <description>Standalone MRover autonomy starter project nodes.</description>
+
+    <maintainer email="rover-software-team@umich.edu">MRover</maintainer>
+    <license>GPL-3.0</license>
+
+    <buildtool_depend>ament_cmake</buildtool_depend>
+    <build_depend>rosidl_default_generators</build_depend>
+    <build_depend>libopencv-dev</build_depend>
+
+    <depend>rclcpp</depend>
+    <depend>rclpy</depend>
+    <depend>sensor_msgs</depend>
+    <depend>geometry_msgs</depend>
+    <depend>visualization_msgs</depend>
+    <depend>tf2</depend>
+    <depend>tf2_ros</depend>
+
+    <exec_depend>ament_index_python</exec_depend>
+    <exec_depend>launch</exec_depend>
+    <exec_depend>launch_ros</exec_depend>
+    <exec_depend>python3-numpy</exec_depend>
+    <exec_depend>python3-transforms3d</exec_depend>
+    <exec_depend>rosidl_default_runtime</exec_depend>
+
+    <!-- Runtime provider of the simulator and state-machine messages. -->
+    <exec_depend>mrover</exec_depend>
+
+    <member_of_group>rosidl_interface_packages</member_of_group>
+
+    <export>
+        <build_type>ament_cmake</build_type>
+    </export>
+</package>

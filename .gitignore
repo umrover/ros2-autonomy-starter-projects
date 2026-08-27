@@ -1,0 +1,41 @@
+# ROS 2 / colcon build artifacts
+/build/
+/install/
+/log/
+/compile_commands.json
+
+# CMake and Ninja artifacts from accidental in-source builds
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+build.ninja
+.ninja_deps
+.ninja_log
+
+# Python generated files
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Python virtual environments
+/.venv/
+/venv/
+
+# Generated runtime files
+state_log.txt
+*.log
+
+# Editors
+/.idea/
+*.swp
+*.swo
+*~
+
+# Operating-system files
+.DS_Store
+Thumbs.db

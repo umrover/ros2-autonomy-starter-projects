@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TextIO
+from pathlib import Path
 from mrover.msg import StateMachineStructure, StateMachineTransition, StateMachineStateUpdate
 from rclpy.node import Node
 from rclpy.publisher import Publisher
@@ -12,7 +12,6 @@ class StatePublisher:
     state_publisher: Publisher
     last_state: State
     state_machine: StateMachine
-    state_log: TextIO
 
     def __init__(
         self,
@@ -43,8 +42,8 @@ class StatePublisher:
     def publish_state(self) -> None:
         current_state = self.state_machine.current_state
         if current_state != self.last_state:
-            with open("./state_machine/state_log.txt", "w") as state_log:
-                state_log.write(str(current_state) + "\n")
+            state_log_path = Path(__file__).resolve().parent / "state_log.txt"
+            state_log_path.write_text(f"{current_state}\n", encoding="utf-8")
             self.last_state = current_state
         state = StateMachineStateUpdate(state=str(current_state), state_machine_name=self.state_machine.name)
         self.state_publisher.publish(state)

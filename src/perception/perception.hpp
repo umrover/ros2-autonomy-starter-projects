@@ -16,7 +16,7 @@
 # include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/image.hpp>
 #include <sensor_msgs/msg/point_cloud2.hpp>
-#include <mrover/msg/starter_project_tag.hpp>
+#include <mrover_autonomy_starter/msg/starter_project_tag.hpp>
 
 // #if __has_include(<mrover/msg/starter_project_tag.hpp>)
 // #include <mrover/StarterProjectTag.h>
@@ -24,7 +24,7 @@
 // struct StarterProjectTag {};
 // #endif
 
-namespace mrover {
+namespace mrover_autonomy_starter {
 
     /**
      *  Starter project perception node
@@ -94,4 +94,4 @@ namespace mrover {
         [[nodiscard]] auto selectTag(cv::Mat const& image, std::vector<msg::StarterProjectTag> const& tags) -> msg::StarterProjectTag;
     };
 
-} // namespace mrover
+} // namespace mrover_autonomy_starter
