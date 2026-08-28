@@ -14,6 +14,7 @@ readonly BLUE_BOLD='\033[1;34m'
 readonly GREEN_BOLD='\033[1;32m'
 readonly YELLOW_BOLD='\033[1;33m'
 readonly WHITE_BOLD='\033[1;37m'
+readonly WHITE='\033[0;37m'
 readonly NC='\033[0m'
 
 readonly REPO_URL="https://github.com/umrover/ros2-autonomy-starter-projects"
@@ -319,7 +320,7 @@ echo
 echo -e "${GREEN_BOLD}Setup complete.${NC}"
 echo
 echo -e "${BLUE_BOLD}Next steps:${NC}"
-echo -e "${WHITE_BOLD}source ~/.zshrc${NC}"
-echo -e "${WHITE_BOLD}auton_starter${NC}"
-echo -e "${WHITE_BOLD}./build.sh${NC}"
-echo -e "${WHITE_BOLD}ros2 launch mrover_autonomy_starter starter_project.launch.py${NC}"
+echo -e "${WHITE}source ~/.zshrc${NC}"
+echo -e "${WHITE}auton_starter${NC}"
+echo -e "${WHITE}./build.sh${NC}"
+echo -e "${WHITE}ros2 launch mrover_autonomy_starter starter_project.launch.py${NC}"
