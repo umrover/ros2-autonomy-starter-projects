@@ -11,10 +11,10 @@ A working mrover install, per the
 ## Setup
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/umrover/ros2-autonomy-starter-projects/main/setup.sh | bash
+curl -fsSL https://raw.githubusercontent.com/umrover/ros2-autonomy-starter-projects/main/scripts/setup.sh | bash
 ```
 
-`setup.sh` checks the mrover install, clones this repo (default `~/ros2-autonomy-starter-projects`),
+`scripts/setup.sh` checks the mrover install, clones this repo (default `~/ros2-autonomy-starter-projects`),
 and installs a shell alias. It does not build. If the mrover install is missing a piece, it
 prints the exact wiki command and asks before running it — nothing runs without a "yes".
 
@@ -23,7 +23,7 @@ After it finishes:
 ```bash
 source ~/.zshrc
 auton_starter
-./build.sh
+build_starter
 ```
 
 ## Everyday use
@@ -36,6 +36,6 @@ ros2 launch mrover_autonomy_starter starter_project.launch.py
 `auton_starter` sources the mrover overlay, then this repo's overlay on top of it, and
 `cd`s into the repo.
 
-After you change the code, recompile with `./build.sh`, then `auton_starter` again to pick
-up the new overlay. `build_auton_starter` does both in one step. `build.sh` needs the
-environment that `auton_starter` sets up, so run the alias first.
+After you change the code, run `build_starter`. It recompiles and re-sources the overlay in
+one step. It needs the environment that `auton_starter` sets up, so run that alias first in
+a new shell.

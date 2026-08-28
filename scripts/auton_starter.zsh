@@ -15,9 +15,9 @@ source_auton_starter_overlay() {
     if [ -f "${overlay}" ]; then
         source "${overlay}" > /dev/null
     else
-        print -P "%F{green}%BNo overlay for profile ${profile}. Run ${AUTON_STARTER_PATH}/build.sh%b%f"
+        print -P "%F{green}%BNo overlay for profile ${profile}. Run build_starter%b%f"
     fi
 }
 
 alias auton_starter="cd \$AUTON_STARTER_PATH && source_auton_starter_overlay"
-alias build_auton_starter="\$AUTON_STARTER_PATH/build.sh && auton_starter"
+alias build_starter="\$AUTON_STARTER_PATH/scripts/build.sh && auton_starter"

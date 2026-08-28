@@ -31,13 +31,13 @@ on_err() {
     local exit_code=$?
     local line=${1:-?}
     echo -e "${RED_BOLD}setup.sh failed at line ${line} (exit ${exit_code}).${NC}" >&2
-    echo -e "${RED_BOLD}Fix the error above, then run setup.sh again.${NC}" >&2
+    echo -e "${RED_BOLD}Fix the error above, then run scripts/setup.sh again.${NC}" >&2
 }
 trap 'on_err ${LINENO}' ERR
 
 usage() {
     cat <<EOF
-Usage: setup.sh [options]
+Usage: scripts/setup.sh [options]
 
   --check          Run preflight checks only (implies --no-offer), then exit.
   --no-offer       Never offer to run a fix command; fail instead.
@@ -153,7 +153,7 @@ preflight() {
     if ! check_mrover_repo; then
         echo -e "${RED_BOLD}mrover is not installed at ${MROVER_PATH}.${NC}"
         if offer_command "The wiki fix is:" "${BOOTSTRAP_CMD}"; then
-            echo -e "${YELLOW_BOLD}Reboot, then run setup.sh again.${NC}"
+            echo -e "${YELLOW_BOLD}Reboot, then run scripts/setup.sh again.${NC}"
             exit 0
         fi
         echo -e "${RED_BOLD}See ${WIKI_URL}${NC}"
@@ -164,7 +164,7 @@ preflight() {
     if ! check_shell_setup; then
         echo -e "${RED_BOLD}source_mrover_overlay is not defined in your shell.${NC}"
         if offer_command "The wiki fix is:" "cd '${MROVER_PATH}' && ./ansible.sh dev.yml"; then
-            echo -e "${YELLOW_BOLD}Reboot, then run setup.sh again.${NC}"
+            echo -e "${YELLOW_BOLD}Reboot, then run scripts/setup.sh again.${NC}"
             exit 0
         fi
         echo -e "${RED_BOLD}See ${WIKI_URL}${NC}"
@@ -193,7 +193,7 @@ preflight() {
     if ! check_colcon; then
         echo -e "${RED_BOLD}colcon is not present in the mrover venv (${MROVER_PATH}/venv).${NC}"
         if offer_command "The wiki fix is:" "${BOOTSTRAP_CMD}"; then
-            echo -e "${YELLOW_BOLD}Reboot, then run setup.sh again.${NC}"
+            echo -e "${YELLOW_BOLD}Reboot, then run scripts/setup.sh again.${NC}"
             exit 0
         fi
         echo -e "${RED_BOLD}See ${WIKI_URL}${NC}"
@@ -218,7 +218,7 @@ fi
 # `curl ... | bash`. An empty SCRIPT_DIR then means bootstrap mode.
 SCRIPT_SOURCE="${BASH_SOURCE[0]:-}"
 if [[ -n "${SCRIPT_SOURCE}" ]]; then
-    SCRIPT_DIR="$(cd "$(dirname "${SCRIPT_SOURCE}")" && pwd)"
+    SCRIPT_DIR="$(cd "$(dirname "${SCRIPT_SOURCE}")/.." && pwd)"
 else
     SCRIPT_DIR=""
 fi
@@ -322,5 +322,5 @@ echo
 echo -e "${BLUE_BOLD}Next steps:${NC}"
 echo -e "${WHITE}source ~/.zshrc${NC}"
 echo -e "${WHITE}auton_starter${NC}"
-echo -e "${WHITE}./build.sh${NC}"
+echo -e "${WHITE}build_starter${NC}"
 echo -e "${WHITE}ros2 launch mrover_autonomy_starter starter_project.launch.py${NC}"

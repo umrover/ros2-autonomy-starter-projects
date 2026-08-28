@@ -15,7 +15,7 @@ readonly NC='\033[0m'
 build_profile="${1:-${MROVER_BUILD_PROFILE:-RelWithDebInfo}}"
 
 if [[ "$#" -gt 1 ]] || { [[ "$#" -eq 1 ]] && [[ "$1" != "Release" && "$1" != "RelWithDebInfo" && "$1" != "Debug" ]]; }; then
-    echo "Usage: ./build.sh [Release|RelWithDebInfo|Debug]"
+    echo "Usage: scripts/build.sh [Release|RelWithDebInfo|Debug]"
     exit 1
 fi
 
@@ -25,7 +25,7 @@ if ! command -v colcon > /dev/null 2>&1; then
 fi
 
 # Build in place: the repo root is the workspace root.
-cd "$(dirname "${BASH_SOURCE[0]:-$0}")"
+cd "$(dirname "${BASH_SOURCE[0]:-$0}")/.."
 
 export CC=clang
 export CXX=clang++
