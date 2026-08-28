@@ -27,13 +27,13 @@ rosidl_get_typesupport_target(
 # Perception
 add_executable(
     starter_perception
-    src/perception/perception.cpp
+    perception/perception.cpp
 )
 
 target_include_directories(
     starter_perception
     PRIVATE
-    src/perception
+    perception
     ${OpenCV_INCLUDE_DIRS}
 )
 
@@ -55,16 +55,16 @@ install(
 )
 
 # Localization: Python baseline for now but supports later C++ port
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/src/localization/localization.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/localization/localization.cpp")
     add_executable(
     starter_localization
-    src/localization/localization.cpp
+    localization/localization.cpp
     )
 
     target_include_directories(
         starter_localization
         PRIVATE
-        src/localization
+        localization
         include
     )
 
@@ -83,7 +83,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/src/localization/localization.cpp")
     )
 else()
     install(
-        PROGRAMS src/localization/localization.py
+        PROGRAMS localization/localization.py
         DESTINATION lib/${PROJECT_NAME}
         RENAME starter_localization
     )
@@ -91,14 +91,14 @@ endif()
 
 # Navigation executable
 install(
-    PROGRAMS src/navigation/navigation_starter_project.py
+    PROGRAMS navigation/navigation_starter_project.py
     DESTINATION lib/${PROJECT_NAME}
     RENAME starter_navigation
 )
 
 # Navigation helper modules are installed beside the executable.
 install(
-    DIRECTORY src/navigation/
+    DIRECTORY navigation/
     DESTINATION lib/${PROJECT_NAME}
     FILES_MATCHING
     PATTERN "*.py"
@@ -107,8 +107,8 @@ install(
 
 install(
     DIRECTORY
-        src/util
-        src/state_machine
+        util
+        state_machine
     DESTINATION lib/${PROJECT_NAME}
     FILES_MATCHING PATTERN "*.py"
 )
