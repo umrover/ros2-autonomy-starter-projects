@@ -141,31 +141,6 @@ else
         INSTALL_PATH="$(pwd)/${INSTALL_PATH}"
     fi
 
-    if [[ "${INSTALL_PATH}" == *ros2_ws* ]]; then
-        fail "Refusing to install at ${INSTALL_PATH}." \
-            "source_mrover_overlay strips every path containing 'ros2_ws' from the" \
-            "ROS path variables, so an overlay installed there would be dropped."
-    fi
-
-    # Reject a path inside the mrover workspace itself, even under a custom
-    # workspace that does not happen to contain the literal string "ros2_ws".
-    case "${INSTALL_PATH}" in
-        "${ROS2_WS}"/*|"${ROS2_WS}")
-            fail "Refusing to install inside the mrover workspace (${ROS2_WS})."
-            ;;
-    esac
-
-    # Reject a path inside any other existing colcon workspace: walk up from the
-    # target's parent looking for an install/setup.bash, the mark of a root.
-    __ancestor="$(dirname "${INSTALL_PATH}")"
-    while [[ "${__ancestor}" != "/" && -n "${__ancestor}" ]]; do
-        if [[ -f "${__ancestor}/install/setup.bash" || -f "${__ancestor}/install/local_setup.bash" ]]; then
-            fail "Refusing to install inside an existing colcon workspace at ${__ancestor}."
-        fi
-        __ancestor="$(dirname "${__ancestor}")"
-    done
-    unset __ancestor
-
     if [[ -e "${INSTALL_PATH}" ]]; then
         if is_this_repo "${INSTALL_PATH}"; then
             echo -e "${GREEN_BOLD}${INSTALL_PATH} already holds this repo. Reusing it.${NC}"
