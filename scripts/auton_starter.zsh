@@ -3,7 +3,7 @@ export AUTON_STARTER_PATH="${AUTON_STARTER_PATH:-$HOME/ros2-autonomy-starter-pro
 
 source_auton_starter_overlay() {
     if ! typeset -f source_mrover_overlay > /dev/null; then
-        echo "source_mrover_overlay is not defined. Check the mrover shell setup."
+        print -P '%F{red}%Bsource_mrover_overlay is not defined. Check the mrover shell setup.%b%f'
         return 1
     fi
 
@@ -15,7 +15,7 @@ source_auton_starter_overlay() {
     if [ -f "${overlay}" ]; then
         source "${overlay}" > /dev/null
     else
-        echo "No overlay for profile ${profile}. Run ${AUTON_STARTER_PATH}/build.sh"
+        print -P "%F{green}%BNo overlay for profile ${profile}. Run ${AUTON_STARTER_PATH}/build.sh%b%f"
     fi
 }
 
