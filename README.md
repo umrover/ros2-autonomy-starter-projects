@@ -5,8 +5,10 @@
 A working mrover install, per the
 [Install ROS wiki page](https://github.com/umrover/mrover-ros2/wiki/2.-Install-ROS).
 
-The ROS 2 workspace must also be built. This repo overlays that build, so it is not enough
-to have cloned mrover:
+Then build the ROS 2 workspace via 
+```bash
+build_mrover
+```
 
 ```bash
 mrover
@@ -28,12 +30,17 @@ build_starter
 ```
 
 ## Use
-
+In every new terminal run 
 ```bash
 auton_starter
-ros2 launch mrover_autonomy_starter starter_project.launch.py
 ```
 
-After you change the code, run `build_starter`. It recompiles and re-sources the overlay in
-one step. It needs the environment that `auton_starter` sets up, so run that alias first in
-a new shell.
+After making changes to your code, compile through
+```bash
+build_starter
+```
+
+Then to run the simulator with your code run
+```bash
+ros2 launch mrover_autonomy_starter starter_project.launch.py
+```
