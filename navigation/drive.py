@@ -21,36 +21,50 @@ def get_drive_command(
     :param completion_thresh:       If the distance to the target is less than this stop.
     :param turn_in_place_thresh     Minimum cosine of the angle in between the target and current heading
                                     in order to drive forward. When below, turn in place.
-    :return:                        Rover drive effort command.
+    :return:                        Rover drive effort command and if we are within completition thresh.
     """
     if not (0.0 < turn_in_place_thresh < 1.0):
         raise ValueError(f"Argument {turn_in_place_thresh} should be between 0 and 1")
+    
+    # Get position of rover 
     rover_pos = rover_pose.position
     rover_dir = rover_pose.rotation.direction_vector()
+    
     # Get vector from rover to target
     target_dir = target_pos - rover_pos
     target_dist = np.linalg.norm(target_dir)
+
+    # Prevent dividing by zero
     if target_dist == 0:
         target_dist = np.finfo(float).eps
-    # Normalize direction
+
+    # Normalize direction (turn vector into a unit vector)
     target_dir /= target_dist
+
     # Both vectors are unit vectors so the dot product magnitude is 0-1
     # 0 alignment is perpendicular, 1 is parallel (fully aligned)
     alignment = np.dot(target_dir, rover_dir)
 
+    # Within distance to target
     if target_dist < completion_thresh:
         return Twist(), True
 
+    # Determine if we will turn in place or drive straight
     cmd_vel = Twist()
     if alignment > turn_in_place_thresh:
         # We are pretty aligned so we can drive straight
         error = target_dist
         cmd_vel.linear.x = np.clip(error, 0.0, MAX_DRIVING_EFFORT)
+    
     # Determine the sign of our effort by seeing if we are to the left or to the right of the target
-    # This is done by dotting rover_dir and target_dir rotated 90 degrees ccw
+    # This is done by obtaining the cross product between the rover_dir and target_dir 
     perp_alignment = target_dir[0] * -rover_dir[1] + target_dir[1] * rover_dir[0]
     sign = np.sign(perp_alignment)
+
     # 1 is target alignment (dot product of two normalized vectors that are parallel is 1)
     error = 1.0 - alignment
+
+    # Turning effort is determined by amount of error and direction is determined by sign
     cmd_vel.angular.z = np.clip(error * TURNING_P * sign, MIN_DRIVING_EFFORT, MAX_DRIVING_EFFORT)
+
     return cmd_vel, False
