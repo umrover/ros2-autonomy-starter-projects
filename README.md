@@ -11,7 +11,7 @@ A working mrover install, per the
 ## Setup
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/umrover/ros2-autonomy-starter-projects/integration/original_sim_baseline/setup.sh | bash
+curl -fsSL https://raw.githubusercontent.com/umrover/ros2-autonomy-starter-projects/main/setup.sh | bash
 ```
 
 `setup.sh` checks the mrover install, clones this repo (default `~/ros2-autonomy-starter-projects`),

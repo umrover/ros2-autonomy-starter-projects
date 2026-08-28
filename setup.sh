@@ -16,7 +16,7 @@ readonly YELLOW_BOLD='\033[1;33m'
 readonly NC='\033[0m'
 
 readonly REPO_URL="https://github.com/umrover/ros2-autonomy-starter-projects"
-readonly REPO_BRANCH="integration/original_sim_baseline"
+readonly REPO_BRANCH="main"
 readonly DEFAULT_INSTALL_PATH="$HOME/ros2-autonomy-starter-projects"
 readonly WIKI_URL="https://github.com/umrover/mrover-ros2/wiki/2.-Install-ROS"
 

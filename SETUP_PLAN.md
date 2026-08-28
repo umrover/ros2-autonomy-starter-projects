@@ -29,7 +29,7 @@ from that page. It never reimplements them.
 The normal path, with ROS already installed per the wiki:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/umrover/ros2-autonomy-starter-projects/integration/original_sim_baseline/setup.sh | bash
+curl -fsSL https://raw.githubusercontent.com/umrover/ros2-autonomy-starter-projects/main/setup.sh | bash
 # Install path [~/ros2-autonomy-starter-projects]: <enter>
 source ~/.zshrc
 ```
@@ -243,7 +243,7 @@ repo copies the flag shape, but not the workspace root. See section 7.
 
 - `umrover/ros2-autonomy-starter-projects` is a public repo. The GitHub API returns 200.
   HTTPS clone works, so this script needs no SSH key. Only the mrover clone does.
-- The default branch is `integration/original_sim_baseline`, not `main`.
+- The default branch is `main`.
 - Ubuntu 22.04.5 LTS. ROS 2 Humble at `/opt/ros/humble`.
 - `build.sh` and `README.md` in this repo are empty files.
 - mrover still builds an old copy of the starter project at `starter_project/autonomy/`.
@@ -352,7 +352,7 @@ Ubuntu version and disk space are not checked. They belong to the wiki.
 - Reject a path inside the mrover workspace, and say why: `source_mrover_overlay` strips
   every path that contains `ros2_ws` from the ROS path variables. See 3.3.
 - Reject a path inside an existing colcon workspace, for the same class of reason.
-- Clone over HTTPS, on branch `integration/original_sim_baseline`.
+- Clone over HTTPS, on branch `main`.
 - If the path exists and holds this repo, keep it and continue.
 - If the path exists and holds anything else, stop with a clear message.
 
