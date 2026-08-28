@@ -13,6 +13,7 @@ readonly RED_BOLD='\033[1;31m'
 readonly BLUE_BOLD='\033[1;34m'
 readonly GREEN_BOLD='\033[1;32m'
 readonly YELLOW_BOLD='\033[1;33m'
+readonly WHITE_BOLD='\033[1;37m'
 readonly NC='\033[0m'
 
 readonly REPO_URL="https://github.com/umrover/ros2-autonomy-starter-projects"
@@ -282,7 +283,6 @@ else
             exit 1
         fi
     else
-        echo -e "${GREEN_BOLD}Cloning ${REPO_URL} (branch ${REPO_BRANCH}) to ${INSTALL_PATH} ...${NC}"
         git clone --branch "${REPO_BRANCH}" "${REPO_URL}" "${INSTALL_PATH}"
     fi
 fi
@@ -303,7 +303,7 @@ if [[ -d "$HOME/.oh-my-zsh" ]]; then
 export AUTON_STARTER_PATH="${INSTALL_PATH}"
 source "\$AUTON_STARTER_PATH/scripts/auton_starter.zsh"
 EOF
-    echo -e "${GREEN_BOLD}Wrote ${CUSTOM_FILE}${NC}"
+    echo -e "${WHITE_BOLD}Wrote ${CUSTOM_FILE}${NC}"
 else
     echo -e "${YELLOW_BOLD}~/.oh-my-zsh not found. Add these two lines to your own shell config:${NC}"
     echo
@@ -316,12 +316,10 @@ fi
 # ---------------------------------------------------------------------------
 
 echo
-echo -e "${BLUE_BOLD}Setup complete.${NC}"
+echo -e "${GREEN_BOLD}Setup complete.${NC}"
 echo
-echo -e "${GREEN_BOLD}source ~/.zshrc${NC}"
-echo -e "${GREEN_BOLD}auton_starter${NC}"
-echo -e "${GREEN_BOLD}./build.sh${NC}"
-echo -e "${GREEN_BOLD}ros2 launch mrover_autonomy_starter starter_project.launch.py${NC}"
-echo
-echo -e "${GREEN_BOLD}Nothing is built yet, so the first auton_starter says there is no${NC}"
-echo -e "${GREEN_BOLD}overlay. Run ./build.sh, then auton_starter again.${NC}"
+echo -e "${BLUE_BOLD}Next steps:${NC}"
+echo -e "${WHITE_BOLD}source ~/.zshrc${NC}"
+echo -e "${WHITE_BOLD}auton_starter${NC}"
+echo -e "${WHITE_BOLD}./build.sh${NC}"
+echo -e "${WHITE_BOLD}ros2 launch mrover_autonomy_starter starter_project.launch.py${NC}"
