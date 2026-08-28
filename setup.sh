@@ -11,7 +11,7 @@ set -Eeuo pipefail
 
 readonly RED_BOLD='\033[1;31m'
 readonly BLUE_BOLD='\033[1;34m'
-readonly GREY_BOLD='\033[1;30m'
+readonly GREEN_BOLD='\033[1;32m'
 readonly YELLOW_BOLD='\033[1;33m'
 readonly NC='\033[0m'
 
@@ -97,7 +97,7 @@ offer_command() {
     echo
     echo -e "${YELLOW_BOLD}${description}${NC}"
     echo
-    echo -e "${GREY_BOLD}${command}${NC}"
+    echo -e "${GREEN_BOLD}${command}${NC}"
     echo
 
     if [[ "${NO_OFFER}" == true ]]; then
@@ -157,7 +157,7 @@ preflight() {
         echo -e "${RED_BOLD}See ${WIKI_URL}${NC}"
         exit 1
     fi
-    echo -e "${GREY_BOLD}[ok] mrover repo present${NC}"
+    echo -e "${GREEN_BOLD}[ok] mrover repo present${NC}"
 
     if ! check_shell_setup; then
         echo -e "${RED_BOLD}source_mrover_overlay is not defined in your shell.${NC}"
@@ -168,14 +168,14 @@ preflight() {
         echo -e "${RED_BOLD}See ${WIKI_URL}${NC}"
         exit 1
     fi
-    echo -e "${GREY_BOLD}[ok] shell setup (source_mrover_overlay) present${NC}"
+    echo -e "${GREEN_BOLD}[ok] shell setup (source_mrover_overlay) present${NC}"
 
     if ! check_mrover_build; then
         echo -e "${RED_BOLD}mrover is not built at ${ROS2_WS}/install.${NC}"
         local build_cmd="cd '${MROVER_PATH}' && source venv/bin/activate && ./build.sh"
         if offer_command "The wiki fix is:" "${build_cmd}"; then
             if check_mrover_build; then
-                echo -e "${GREY_BOLD}[ok] mrover build now present${NC}"
+                echo -e "${GREEN_BOLD}[ok] mrover build now present${NC}"
             else
                 echo -e "${RED_BOLD}Still no build output after running the build. See ${WIKI_URL}${NC}"
                 exit 1
@@ -185,7 +185,7 @@ preflight() {
             exit 1
         fi
     else
-        echo -e "${GREY_BOLD}[ok] mrover build present${NC}"
+        echo -e "${GREEN_BOLD}[ok] mrover build present${NC}"
     fi
 
     if ! check_colcon; then
@@ -197,7 +197,7 @@ preflight() {
         echo -e "${RED_BOLD}See ${WIKI_URL}${NC}"
         exit 1
     fi
-    echo -e "${GREY_BOLD}[ok] colcon present in the mrover venv${NC}"
+    echo -e "${GREEN_BOLD}[ok] colcon present in the mrover venv${NC}"
 
     echo -e "${BLUE_BOLD}Preflight passed.${NC}"
 }
@@ -229,7 +229,7 @@ if [[ -z "${OPT_PATH}" && -n "${SCRIPT_DIR}" ]] \
     && [[ -f "${SCRIPT_DIR}/package.xml" ]] \
     && grep -q "<name>mrover_autonomy_starter</name>" "${SCRIPT_DIR}/package.xml" 2> /dev/null; then
     INSTALL_PATH="${SCRIPT_DIR}"
-    echo -e "${GREY_BOLD}In-repo mode: using existing checkout at ${INSTALL_PATH}${NC}"
+    echo -e "${GREEN_BOLD}In-repo mode: using existing checkout at ${INSTALL_PATH}${NC}"
 else
     echo -e "${BLUE_BOLD}== Placing ros2-autonomy-starter-projects ==${NC}"
 
@@ -276,13 +276,13 @@ else
 
     if [[ -e "${INSTALL_PATH}" ]]; then
         if [[ -f "${INSTALL_PATH}/package.xml" ]] && grep -q "<name>mrover_autonomy_starter</name>" "${INSTALL_PATH}/package.xml" 2> /dev/null; then
-            echo -e "${GREY_BOLD}${INSTALL_PATH} already holds this repo. Reusing it.${NC}"
+            echo -e "${GREEN_BOLD}${INSTALL_PATH} already holds this repo. Reusing it.${NC}"
         else
             echo -e "${RED_BOLD}${INSTALL_PATH} exists and does not hold this repo. Aborting.${NC}"
             exit 1
         fi
     else
-        echo -e "${GREY_BOLD}Cloning ${REPO_URL} (branch ${REPO_BRANCH}) to ${INSTALL_PATH} ...${NC}"
+        echo -e "${GREEN_BOLD}Cloning ${REPO_URL} (branch ${REPO_BRANCH}) to ${INSTALL_PATH} ...${NC}"
         git clone --branch "${REPO_BRANCH}" "${REPO_URL}" "${INSTALL_PATH}"
     fi
 fi
@@ -303,12 +303,12 @@ if [[ -d "$HOME/.oh-my-zsh" ]]; then
 export AUTON_STARTER_PATH="${INSTALL_PATH}"
 source "\$AUTON_STARTER_PATH/scripts/auton_starter.zsh"
 EOF
-    echo -e "${GREY_BOLD}Wrote ${CUSTOM_FILE}${NC}"
+    echo -e "${GREEN_BOLD}Wrote ${CUSTOM_FILE}${NC}"
 else
     echo -e "${YELLOW_BOLD}~/.oh-my-zsh not found. Add these two lines to your own shell config:${NC}"
     echo
-    echo -e "${GREY_BOLD}export AUTON_STARTER_PATH=\"${INSTALL_PATH}\"${NC}"
-    echo -e "${GREY_BOLD}source \"\$AUTON_STARTER_PATH/scripts/auton_starter.zsh\"${NC}"
+    echo -e "${GREEN_BOLD}export AUTON_STARTER_PATH=\"${INSTALL_PATH}\"${NC}"
+    echo -e "${GREEN_BOLD}source \"\$AUTON_STARTER_PATH/scripts/auton_starter.zsh\"${NC}"
 fi
 
 # ---------------------------------------------------------------------------
@@ -318,10 +318,10 @@ fi
 echo
 echo -e "${BLUE_BOLD}Setup complete.${NC}"
 echo
-echo -e "${GREY_BOLD}source ~/.zshrc${NC}"
-echo -e "${GREY_BOLD}auton_starter${NC}"
-echo -e "${GREY_BOLD}./build.sh${NC}"
-echo -e "${GREY_BOLD}ros2 launch mrover_autonomy_starter starter_project.launch.py${NC}"
+echo -e "${GREEN_BOLD}source ~/.zshrc${NC}"
+echo -e "${GREEN_BOLD}auton_starter${NC}"
+echo -e "${GREEN_BOLD}./build.sh${NC}"
+echo -e "${GREEN_BOLD}ros2 launch mrover_autonomy_starter starter_project.launch.py${NC}"
 echo
-echo -e "${GREY_BOLD}Nothing is built yet, so the first auton_starter says there is no${NC}"
-echo -e "${GREY_BOLD}overlay. Run ./build.sh, then auton_starter again.${NC}"
+echo -e "${GREEN_BOLD}Nothing is built yet, so the first auton_starter says there is no${NC}"
+echo -e "${GREEN_BOLD}overlay. Run ./build.sh, then auton_starter again.${NC}"
