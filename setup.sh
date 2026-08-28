@@ -299,7 +299,16 @@ if [[ "${SKIP_BUILD}" == true ]]; then
     echo -e "${GREY_BOLD}--skip-build set; not building.${NC}"
 else
     echo -e "${BLUE_BOLD}== Building mrover_autonomy_starter ==${NC}"
-    MROVER_ROS2_WS_PATH="${ROS2_WS}" "${INSTALL_PATH}/build.sh"
+
+    if [[ ! -s "${INSTALL_PATH}/build.sh" ]]; then
+        echo -e "${RED_BOLD}${INSTALL_PATH}/build.sh is missing or empty.${NC}"
+        echo -e "${RED_BOLD}That clone came from a branch without the setup work in it.${NC}"
+        echo -e "${RED_BOLD}Check that branch '${REPO_BRANCH}' of ${REPO_URL} carries setup.sh and build.sh.${NC}"
+        exit 1
+    fi
+
+    # Invoke through bash, so a lost executable bit is not fatal.
+    MROVER_ROS2_WS_PATH="${ROS2_WS}" bash "${INSTALL_PATH}/build.sh"
 fi
 
 # ---------------------------------------------------------------------------
