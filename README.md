@@ -1,4 +1,4 @@
-# mrover_autonomy_starter
+# Auton Starter Project Setup
 
 ## Prerequisite
 
