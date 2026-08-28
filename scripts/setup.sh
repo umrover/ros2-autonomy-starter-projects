@@ -101,57 +101,34 @@ echo -e "${BLUE_BOLD}Preflight passed.${NC}"
 # Step 1: place this repo
 # ---------------------------------------------------------------------------
 
-# ${BASH_SOURCE[0]} is unset when the script arrives on stdin, as it does under
-# `curl ... | bash`. An empty REPO_DIR then means the repo is not here yet.
-SCRIPT_SOURCE="${BASH_SOURCE[0]:-}"
-if [[ -n "${SCRIPT_SOURCE}" ]]; then
-    REPO_DIR="$(cd "$(dirname "${SCRIPT_SOURCE}")/.." && pwd)"
-else
-    REPO_DIR=""
+echo -e "${BLUE_BOLD}== Placing ros2-autonomy-starter-projects ==${NC}"
+
+INSTALL_PATH="${OPT_PATH}"
+if [[ -z "${INSTALL_PATH}" && "${HAVE_TTY}" == true ]]; then
+    echo -e -n "Install path [${DEFAULT_INSTALL_PATH}]: " > /dev/tty
+    read -r INSTALL_PATH < /dev/tty || INSTALL_PATH=""
 fi
-readonly REPO_DIR
-INSTALL_PATH=""
+if [[ -z "${INSTALL_PATH}" ]]; then
+    INSTALL_PATH="${DEFAULT_INSTALL_PATH}"
+fi
 
-is_this_repo() {
-    [[ -f "$1/package.xml" ]] \
-        && grep -q "<name>mrover_autonomy_starter</name>" "$1/package.xml" 2> /dev/null
-}
-
-# In-repo mode: this script is already inside a checkout. Use it where it is.
-# An explicit install path always wins.
-if [[ -z "${OPT_PATH}" && -n "${REPO_DIR}" ]] && is_this_repo "${REPO_DIR}"; then
-    INSTALL_PATH="${REPO_DIR}"
-    echo -e "${GREEN_BOLD}In-repo mode: using existing checkout at ${INSTALL_PATH}${NC}"
-else
-    echo -e "${BLUE_BOLD}== Placing ros2-autonomy-starter-projects ==${NC}"
-
-    if [[ -n "${OPT_PATH}" ]]; then
-        INSTALL_PATH="${OPT_PATH}"
-    elif [[ "${HAVE_TTY}" == true ]]; then
-        echo -e -n "Install path [${DEFAULT_INSTALL_PATH}]: " > /dev/tty
-        read -r INSTALL_PATH < /dev/tty || INSTALL_PATH=""
-    fi
-    if [[ -z "${INSTALL_PATH}" ]]; then
-        INSTALL_PATH="${DEFAULT_INSTALL_PATH}"
-    fi
-
-    # Expand ~ and relative paths to an absolute path.
-    INSTALL_PATH="${INSTALL_PATH/#\~/$HOME}"
-    if [[ "${INSTALL_PATH}" != /* ]]; then
-        INSTALL_PATH="$(pwd)/${INSTALL_PATH}"
-    fi
-
-    if [[ -e "${INSTALL_PATH}" ]]; then
-        if is_this_repo "${INSTALL_PATH}"; then
-            echo -e "${GREEN_BOLD}${INSTALL_PATH} already holds this repo. Reusing it.${NC}"
-        else
-            fail "${INSTALL_PATH} exists and does not hold this repo. Aborting."
-        fi
-    else
-        git clone --branch "${REPO_BRANCH}" "${REPO_URL}" "${INSTALL_PATH}"
-    fi
+# Expand ~ and relative paths to an absolute path.
+INSTALL_PATH="${INSTALL_PATH/#\~/$HOME}"
+if [[ "${INSTALL_PATH}" != /* ]]; then
+    INSTALL_PATH="$(pwd)/${INSTALL_PATH}"
 fi
 readonly INSTALL_PATH
+
+if [[ -e "${INSTALL_PATH}" ]]; then
+    if [[ -f "${INSTALL_PATH}/package.xml" ]] \
+        && grep -q "<name>mrover_autonomy_starter</name>" "${INSTALL_PATH}/package.xml" 2> /dev/null; then
+        echo -e "${GREEN_BOLD}${INSTALL_PATH} already holds this repo. Reusing it.${NC}"
+    else
+        fail "${INSTALL_PATH} exists and does not hold this repo. Aborting."
+    fi
+else
+    git clone --branch "${REPO_BRANCH}" "${REPO_URL}" "${INSTALL_PATH}"
+fi
 
 # ---------------------------------------------------------------------------
 # Step 2: install the aliases
