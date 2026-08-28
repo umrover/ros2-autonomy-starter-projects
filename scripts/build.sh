@@ -8,7 +8,6 @@ set -Eeuo pipefail
 
 readonly RED_BOLD='\033[1;31m'
 readonly BLUE_BOLD='\033[1;34m'
-readonly GREEN_BOLD='\033[1;32m'
 readonly NC='\033[0m'
 
 # determine the build profile
@@ -36,5 +35,3 @@ colcon build \
     --symlink-install \
     --build-base "build/${build_profile}" \
     --install-base "install/${build_profile}"
-
-echo -e "${GREEN_BOLD}Done. Run auton_starter to pick up the new overlay.${NC}"
