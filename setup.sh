@@ -22,7 +22,6 @@ readonly WIKI_URL="https://github.com/umrover/mrover-ros2/wiki/2.-Install-ROS"
 
 CHECK_ONLY=false
 NO_OFFER=false
-SKIP_BUILD=false
 OPT_PATH=""
 OPT_ROS2_WS=""
 
@@ -42,7 +41,6 @@ Usage: setup.sh [options]
   --no-offer       Never offer to run a fix command; fail instead.
   --path PATH      Install path for this repo. Default: ${DEFAULT_INSTALL_PATH}
   --ros2-ws PATH   Path to the mrover workspace. Default: \$MROVER_ROS2_WS_PATH or \$HOME/ros2_ws
-  --skip-build     Install the alias only; skip the build step.
   -h, --help       Show this help.
 EOF
 }
@@ -53,7 +51,6 @@ while [[ $# -gt 0 ]]; do
         --no-offer) NO_OFFER=true; shift ;;
         --path) OPT_PATH="${2:?--path requires a value}"; shift 2 ;;
         --ros2-ws) OPT_ROS2_WS="${2:?--ros2-ws requires a value}"; shift 2 ;;
-        --skip-build) SKIP_BUILD=true; shift ;;
         -h|--help) usage; exit 0 ;;
         *) echo -e "${RED_BOLD}Unknown option: $1${NC}" >&2; usage >&2; exit 1 ;;
     esac
@@ -292,27 +289,7 @@ fi
 readonly INSTALL_PATH
 
 # ---------------------------------------------------------------------------
-# Step 2: build this repo
-# ---------------------------------------------------------------------------
-
-if [[ "${SKIP_BUILD}" == true ]]; then
-    echo -e "${GREY_BOLD}--skip-build set; not building.${NC}"
-else
-    echo -e "${BLUE_BOLD}== Building mrover_autonomy_starter ==${NC}"
-
-    if [[ ! -s "${INSTALL_PATH}/build.sh" ]]; then
-        echo -e "${RED_BOLD}${INSTALL_PATH}/build.sh is missing or empty.${NC}"
-        echo -e "${RED_BOLD}That clone came from a branch without the setup work in it.${NC}"
-        echo -e "${RED_BOLD}Check that branch '${REPO_BRANCH}' of ${REPO_URL} carries setup.sh and build.sh.${NC}"
-        exit 1
-    fi
-
-    # Invoke through bash, so a lost executable bit is not fatal.
-    MROVER_ROS2_WS_PATH="${ROS2_WS}" bash "${INSTALL_PATH}/build.sh"
-fi
-
-# ---------------------------------------------------------------------------
-# Step 3: install the alias
+# Step 2: install the alias
 # ---------------------------------------------------------------------------
 
 echo -e "${BLUE_BOLD}== Installing the auton_starter alias ==${NC}"
@@ -335,7 +312,7 @@ else
 fi
 
 # ---------------------------------------------------------------------------
-# Step 4: report
+# Step 3: report
 # ---------------------------------------------------------------------------
 
 echo
@@ -343,4 +320,8 @@ echo -e "${BLUE_BOLD}Setup complete.${NC}"
 echo
 echo -e "${GREY_BOLD}source ~/.zshrc${NC}"
 echo -e "${GREY_BOLD}auton_starter${NC}"
+echo -e "${GREY_BOLD}./build.sh${NC}"
 echo -e "${GREY_BOLD}ros2 launch mrover_autonomy_starter starter_project.launch.py${NC}"
+echo
+echo -e "${GREY_BOLD}Nothing is built yet, so the first auton_starter says there is no${NC}"
+echo -e "${GREY_BOLD}overlay. Run ./build.sh, then auton_starter again.${NC}"
