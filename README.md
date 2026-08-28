@@ -33,5 +33,3 @@ ros2 launch mrover_autonomy_starter starter_project.launch.py
 
 `auton_starter` sources the mrover overlay, then this repo's overlay on top of it, and
 `cd`s into the repo. `build_auton_starter` rebuilds this repo, then runs `auton_starter`.
-
-See `SETUP_PLAN.md` for the full design.
