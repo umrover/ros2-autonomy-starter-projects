@@ -16,53 +16,56 @@
 # include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/image.hpp>
 #include <sensor_msgs/msg/point_cloud2.hpp>
-#include <mrover_autonomy_starter/msg/starter_project_tag.hpp>
+#include <mrover/msg/starter_project_tag.hpp>
 
-// #if __has_include(<mrover/msg/starter_project_tag.hpp>)
-// #include <mrover/StarterProjectTag.h>
-// #else
-// struct StarterProjectTag {};
-// #endif
-
-namespace mrover_autonomy_starter {
+namespace mrover {
 
     /**
      *  Starter project perception node
      *
-     *  Input:  Image data, just RGB pixels.
-     *  Output: ArUco tag pixel coordinates that is closest to the center of the camera.
-     *          Also an approximation for how far away the tag is.
+     *  Input:  RGB pixel image data
+     *  Output: StarterProjectTag message containing the tag ID, center coordinates, and closeness metric of the ArUco tag closest to the camera
      */
     class Perception : public rclcpp::Node {
     private:
+        // Class variable to store pointer to subscriber for image data
         rclcpp::Subscription<sensor_msgs::msg::Image>::ConstSharedPtr mImageSubscriber;
+
+        // Class variable to aruco tag detection dictionary
         cv::Ptr<cv::aruco::Dictionary> mTagDictionary;
+
+        // Class variable that stores the detected corners from detectMarkers()
         std::vector<std::vector<cv::Point2f>> mTagCorners;
+
+        // Class variable that stores the detected IDs from detectMarkers()
         std::vector<int> mTagIds;
+
+        // Class variable that stores the information all detected tags
         std::vector<msg::StarterProjectTag> mTags;
+
+        // Class variable to store pointer to publisher for selected tag
         rclcpp::Publisher<msg::StarterProjectTag>::SharedPtr mTagPublisher;
 
     public:
         Perception();
 
         /**
-         * Called when we receive a new image message from the camera.
-         * Specifically this is one frame.
+         * Called when we receive a new image message (a new frame) from the camera.
          *
          * @param imageMessage
          */
         void imageCallback(sensor_msgs::msg::Image::ConstSharedPtr const& imageMessage);
 
         /**
-         *  Given an image, detect ArUco tags, and fill a vector full of output messages.
+         *  Given an image, detect ArUco tags, and fill the vector full of output messages.
          *
          * @param image Image
          * @param tags  Output vector of tags
          */
-        void findTagsInImage(cv::Mat const& image, std::vector<msg::StarterProjectTag>& tags);
+        void findTagsInImage(cv::Mat const& image);
 
         /**
-         * Publish our processed tag
+         * Publish the closest tag
          *
          * @param tag Selected tag message
          */
@@ -73,7 +76,7 @@ namespace mrover_autonomy_starter {
          *
          * @param image         Access to the raw OpenCV image as a matrix
          * @param tagCorners    4-tuple of the tag pixel coordinates representing the corners
-         * @return              Closeness metric from rover to the tag
+         * @return              Closeness metric from rover to the tag (should be between 0 and 1, where 0 is closest, 1 is farthest)
          */
         [[nodiscard]] auto getClosenessMetricFromTagCorners(cv::Mat const& image, std::vector<cv::Point2f> const& tagCorners) -> float;
 
@@ -86,12 +89,12 @@ namespace mrover_autonomy_starter {
         [[nodiscard]] auto getCenterFromTagCorners(std::vector<cv::Point2f> const& tagCorners) -> std::pair<float, float>;
 
         /**
-         *  Select the tag closest to the center of the camera
+         *  Select the tag closest to the camera
          * 
          * @param tags          Vector of tags
          * @return              Center tag
          */
-        [[nodiscard]] auto selectTag(cv::Mat const& image, std::vector<msg::StarterProjectTag> const& tags) -> msg::StarterProjectTag;
+        [[nodiscard]] auto selectTag(std::vector<msg::StarterProjectTag> const& tags) -> msg::StarterProjectTag;
     };
 
-} // namespace mrover_autonomy_starter
+} // namespace mrover
