@@ -25,8 +25,6 @@ After it finishes:
 
 ```bash
 source ~/.zshrc
-auton_starter
-build_starter
 ```
 
 ## Use
