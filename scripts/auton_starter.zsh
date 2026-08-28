@@ -21,3 +21,4 @@ source_auton_starter_overlay() {
 
 alias auton_starter="cd \$AUTON_STARTER_PATH && source_auton_starter_overlay"
 alias build_starter="\$AUTON_STARTER_PATH/scripts/build.sh && auton_starter"
+alias clean_starter="rm -rf \$AUTON_STARTER_PATH/build \$AUTON_STARTER_PATH/log \$AUTON_STARTER_PATH/install"

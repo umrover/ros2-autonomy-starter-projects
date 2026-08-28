@@ -7,7 +7,6 @@
 set -Eeuo pipefail
 
 readonly RED_BOLD='\033[1;31m'
-readonly BLUE_BOLD='\033[1;34m'
 readonly NC='\033[0m'
 
 # determine the build profile
@@ -29,7 +28,6 @@ cd "$(dirname "${BASH_SOURCE[0]:-$0}")/.."
 export CC=clang
 export CXX=clang++
 
-echo -e "${BLUE_BOLD}Building mrover_autonomy_starter (${build_profile}) ...${NC}"
 colcon build \
     --cmake-args -G Ninja -Wno-dev -DCMAKE_BUILD_TYPE="${build_profile}" \
     --symlink-install \
