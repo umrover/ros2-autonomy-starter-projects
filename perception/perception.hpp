@@ -16,9 +16,9 @@
 # include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/image.hpp>
 #include <sensor_msgs/msg/point_cloud2.hpp>
-#include <mrover/msg/starter_project_tag.hpp>
+#include <mrover_autonomy_starter/msg/starter_project_tag.hpp>
 
-namespace mrover {
+namespace mrover_autonomy_starter {
 
     /**
      *  Starter project perception node
@@ -89,7 +89,7 @@ namespace mrover {
         [[nodiscard]] auto getCenterFromTagCorners(std::vector<cv::Point2f> const& tagCorners) -> std::pair<float, float>;
 
         /**
-         *  Select the tag closest to the camera
+         *  Select the tag closest to the camera. If there isn't any tags, return a "dummy" tag with ID of -1.
          * 
          * @param tags          Vector of tags
          * @return              Center tag
@@ -97,4 +97,4 @@ namespace mrover {
         [[nodiscard]] auto selectTag(std::vector<msg::StarterProjectTag> const& tags) -> msg::StarterProjectTag;
     };
 
-} // namespace mrover
+} // namespace mrover_autonomy_starter

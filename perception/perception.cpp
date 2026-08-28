@@ -18,20 +18,20 @@ auto main(int argc, char** argv) -> int {
     rclcpp::init(argc, argv);
 
     // "spin" blocks until our node dies
-    rclcpp::spin(std::make_shared<mrover::Perception>());
+    rclcpp::spin(std::make_shared<mrover_autonomy_starter::Perception>());
     rclcpp::shutdown();
 
     return EXIT_SUCCESS;
 }
 
-namespace mrover {
+namespace mrover_autonomy_starter {
 
     // Constructor for the perception() node 
     Perception::Perception() : Node("perception") {
         // Subscriber to the input images from the ZED camera.
         // Every time a node publishes to /zed/left/image, the lambda callback we passed will be called, effectively calling imageCallback.
-        mImageSubscriber = create_subscription<sensor_msgs::msg::Image>("/zed/left/image", 1, [this](sensor_msgs::msg::Image::ConstSharedPtr const& msg) {
-            imageCallback(msg);
+        mImageSubscriber = create_subscription<sensor_msgs::msg::Image>("/zed/left/image", 1, [this](sensor_msgs::msg::Image::ConstSharedPtr const& frame) {
+            imageCallback(frame);
         });
 
         // Create a publisher for our tag topic
@@ -70,6 +70,7 @@ namespace mrover {
 
     auto Perception::selectTag(std::vector<msg::StarterProjectTag> const& tags) -> msg::StarterProjectTag { // NOLINT(*-convert-member-functions-to-static)
         // TODO: implement me! Read the wiki and the function header in perception.hpp for more hints.
+        // If there isn't a valid tag, you should return a "dummy" tag with ID -1.
         (void)tags;
         return msg::StarterProjectTag{};
     }
@@ -82,6 +83,7 @@ namespace mrover {
 
     auto Perception::getClosenessMetricFromTagCorners(cv::Mat const& image, std::vector<cv::Point2f> const& tagCorners) -> float { // NOLINT(*-convert-member-functions-to-static)
         // The closeness metric is an approximation that will be used later by navigation to stop "close enough" to a tag.
+        // The closeness metric should be between 0 and 1, where 0 is very close and 1 is far away
         // Try not overthink, this metric does not have to be perfect, just somewhat correlated to distance away from a tag
         // Be creative!
 
@@ -97,4 +99,4 @@ namespace mrover {
         return {};
     }
 
-} // namespace mrover
+} // namespace mrover_autonomy_starter
