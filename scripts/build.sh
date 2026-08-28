@@ -29,6 +29,7 @@ export CC=clang
 export CXX=clang++
 
 colcon build \
+    --event-handlers console_direct+ \
     --cmake-args -G Ninja -Wno-dev -DCMAKE_BUILD_TYPE="${build_profile}" \
     --symlink-install \
     --build-base "build/${build_profile}" \
