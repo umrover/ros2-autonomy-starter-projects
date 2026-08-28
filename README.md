@@ -5,14 +5,10 @@
 A working mrover install, per the
 [Install ROS wiki page](https://github.com/umrover/mrover-ros2/wiki/2.-Install-ROS).
 
-Then build the ROS 2 workspace via 
-```bash
-build_mrover
-```
-
+Then build the ROS 2 workspace by running
 ```bash
 mrover
-./build.sh
+build_mrover
 ```
 
 ## Setup
