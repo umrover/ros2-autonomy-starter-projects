@@ -18,7 +18,7 @@
 #include <sensor_msgs/msg/point_cloud2.hpp>
 #include <mrover_autonomy_starter/msg/starter_project_tag.hpp>
 
-// #if __has_include(<mrover/msg/starter_project_tag.hpp>)
+// #if __has_include(<mrover_autonomy_starter/msg/starter_project_tag.hpp>)
 // #include <mrover/StarterProjectTag.h>
 // #else
 // struct StarterProjectTag {};

@@ -46,8 +46,8 @@ if ! { true < /dev/tty; } 2> /dev/null; then
     HAVE_TTY=false
 fi
 
-readonly ROS2_WS="${MROVER_ROS2_WS_PATH:-$HOME/ros2_ws}"
-readonly MROVER_PATH="${ROS2_WS}/src/mrover"
+readonly ROS2_WS="${MROVER_ROS2_WS_PATH:-$HOME/mrover-ros2}"
+readonly MROVER_PATH="${ROS2_WS}"
 
 # ---------------------------------------------------------------------------
 # Step 0: preflight
