@@ -33,3 +33,5 @@ colcon build \
     --symlink-install \
     --build-base "build/${build_profile}" \
     --install-base "install/${build_profile}"
+
+ln -sf "build/${build_profile}/compile_commands.json" compile_commands.json
