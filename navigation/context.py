@@ -10,11 +10,8 @@ from rclpy.subscription import Subscription
 from rclpy.node import Node
 import tf2_ros
 from geometry_msgs.msg import Twist
-from mrover.msg import StarterProjectTag
+from mrover_autonomy_starter.msg import StarterProjectTag
 
-import sys
-import os
-sys.path.append(os.getcwd() + '/starter_project/autonomy/src')
 from util.SE3 import SE3
 from visualization_msgs.msg import Marker
 
